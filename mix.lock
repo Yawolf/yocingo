@@ -1,0 +1,2 @@
+%{"httpotion": {:hex, :httpotion, "2.1.0"},
+  "poison": {:hex, :poison, "1.4.0"}}
