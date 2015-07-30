@@ -12,7 +12,7 @@ When the API is ready, I will include it in the Hex repository! ^_^
 
 ## Disclaimer
 This is my first Elixir program, so please, don't be hard with me, I'm just a poor
-boy whom loves learn new things :D
+boy who loves learn new things :D
 
 ## Contact
 Use telegram to talk about Telegram! :D
