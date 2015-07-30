@@ -37,31 +37,35 @@ defmodule Yocingo do
   end
 
   def send_message(chat_id, text, disable_web_page_preview \\ false,
-      reply_to_mensaje_id \\ nil, reply_markup \\ nil) do
+                   reply_to_mensaje_id \\ nil, reply_markup \\ nil) do
     body = {:form,[chat_id: chat_id, text: text]}
     get_response("sendMessage", body)
   end
-
+  
   def send_photo(chat_id, photo, caption \\ :nil,
                  reply_to_message_id \\ :nil, reply_markup \\ :nil) do
-    case photo do
-      is_path -> 
-        _ -> body = {:form, [chat_id: chat_id,
-                               photo: photo,
-                               caption: caption,
-                               reply_to_message_id: reply_to_message_id,
-                               reply_markup: reply_markup]}
+    if is_path photo do
+      body = {:multipart,
+              [{"chat_id", to_string(chat_id)},
+               {:file, photo,
+                {"form-data",
+                 [{"name", "photo"},
+                  {"filename", Path.basename photo}]},
+                []}]}
+    else
+      body = {:form, [chat_id: chat_id,
+                      photo: photo,
+                      caption: caption,
+                      reply_to_message_id: reply_to_message_id,
+                      reply_markup: reply_markup]}
     end
-    body = {:multipart, [
-               {:form, [chat_id: chat_id,
-                        photo: photo,
-                        caption: caption,
-                        reply_to_message_id: reply_to_message_id,
-                        reply_markup: reply_markup]},
-               {:file, photo, {"form-data", [{"name", "file"}]},
-                [{"Content-Type", "image/jpeg"}]},
-               ]}
     get_response("sendPhoto", body)
+  end
+
+  # AUXILIAR FUNCTIONS
+  
+  def is_path(path) do
+    File.exists? path
   end
 
 end
