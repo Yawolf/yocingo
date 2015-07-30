@@ -1,7 +1,7 @@
 Yocingo Telegram API Bot
 ========================
 
-A Telegram API Bot written in *Elixir*! Awesome! :D
+A Telegram API Bot written in **Elixir**! Awesome! :D
 
 This library is still in development but don't worry, I will try to get it ready
 as soon as possible!
