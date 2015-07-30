@@ -15,7 +15,6 @@ defmodule Yocingo do
 
   # Creates the proper API method URL
   def build_url(method) do
-    "http://localhost:5000/"
     @api_url <> get_token <> "/" <>method
   end
 
