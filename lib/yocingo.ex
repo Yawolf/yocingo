@@ -38,8 +38,9 @@ defmodule Yocingo do
     "getMe" |> get_response
   end
 
-  def get_updates do
-    "getUpdates" |> get_response
+  def get_updates(offset \\ 0, limits \\ 100, timeout \\ 20) do
+    body = {:form, [offset: offset, limits: limits, timeout: timeout]}
+    get_response("getUpdates",body)
   end
 
   def send_message(chat_id, text, disable_web_page_preview \\ false,
@@ -47,5 +48,15 @@ defmodule Yocingo do
     body = {:form,[chat_id: chat_id, text: text]}
     get_response("sendMessage", body)
   end
-  
+
+  def send_photo(chat_id, photo, caption \\ :nil,
+                 reply_to_message_id \\ :nil, reply_markup \\ :nil) do
+    body = {:form, [chat_id: chat_id,
+                    photo: photo,
+                    caption: caption,
+                    reply_to_message_id: reply_to_message_id,
+                    reply_markup: reply_markup]}
+    get_response("sendPhoto", body)
+  end
+
 end
