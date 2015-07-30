@@ -2,7 +2,7 @@ defmodule Yocingo do
   # The telegram bot api URL
   @api_url "https://api.telegram.org/bot"
 
-  # This function reads the token from the file called token 
+  # This function reads the token from the file called token
   def get_token do
     {ret, body} = File.read "token"
 
@@ -10,26 +10,27 @@ defmodule Yocingo do
       :ok -> String.strip body, ?\n
       :error -> raise File, message: "File Token not found"
     end
-    
+
   end
 
   # Creates the proper API method URL
   def build_url(method) do
-    @api_url <> get_token <> "/" <>method 
+    "http://localhost:5000/"
+    @api_url <> get_token <> "/" <>method
   end
 
   # Obtains and parses a petition
   def get_response(method,request \\ :nil) do
     case request do
       :nil ->
-        {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
+        {:ok, %HTTPoison.Response{status_code: code, body: body}} =
         HTTPoison.get build_url method
         body |> JSX.decode!
       _ ->
-        {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
+        {:ok, %HTTPoison.Response{status_code: code, body: body}} =
         HTTPoison.post((build_url method), request)
         body |> JSX.decode!
-    end 
+    end
   end
 
   # TELEGRAM API BOT FUCNTIONS
@@ -47,5 +48,46 @@ defmodule Yocingo do
     body = {:form,[chat_id: chat_id, text: text]}
     get_response("sendMessage", body)
   end
-  
+
+  def send_photo(chat_id, photo_path) do
+    looks_like = (length String.split(photo_path, ".")) > 1
+    if looks_like do
+      send_photo_path(chat_id, photo_path)
+    else
+      send_photo_id(chat_id, photo_path)
+    end
+  end
+
+  # AUXILIAR FUNCTIONS
+
+  def send_photo_path(chat_id, photo_path) do
+    fname = String.split(photo_path, "/") |> List.last
+    multipartbody = {:multipart,
+                     [{"chat_id", to_string(chat_id)},
+                      {:file, photo_path,
+                       {"form-data",
+                        [{"name", "photo"},
+                         {"filename", fname}]},
+                       []}]}
+
+    url = build_url "sendPhoto"
+    body = case :hackney.post(url, [], multipartbody) do
+             {:ok, status_code, headers, client} when status_code in [204, 304] -> "{}"
+             {:ok, status_code, headers} -> "{}"
+             {:ok, status_code, headers, client} ->
+               case :hackney.body(client) do
+                 {:ok, body} -> body
+                 {:error, reason} -> "{}"
+               end
+             {:ok, id} -> "{}"
+             {:error, reason} -> "{}"
+           end
+    body |> JSX.decode!
+  end
+
+  def send_photo_id(chat_id, photo_id) do
+    body = {:form, [chat_id: chat_id, photo: photo_id]}
+    get_response("sendPhoto", body)
+  end
+
 end
