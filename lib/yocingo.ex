@@ -21,7 +21,7 @@ defmodule Yocingo do
   # Obtains and parses a petition
 
   def get_response(method,request \\ []) do
-    {:ok, %HTTPoison.Response{status_code: code, body: body}} =
+    {:ok, %HTTPoison.Response{status_code: _, body: body}} =
       HTTPoison.post((build_url method), request)
     body |> JSX.decode!
   end
@@ -39,7 +39,12 @@ defmodule Yocingo do
 
   def send_message(chat_id, text, disable_web_page_preview \\ false,
                    reply_to_mensaje_id \\ nil, reply_markup \\ nil) do
-    body = {:form,[chat_id: chat_id, text: text]}
+    body = {:form,[chat_id: chat_id,
+                   text: text,
+                   disable_web_page_preview: disable_web_page_preview,
+                   reply_to_mensaje_id: reply_to_mensaje_id,
+                   reply_markup: reply_markup |> JSX.encode!
+                  ]}
     get_response("sendMessage", body)
   end
 
@@ -48,6 +53,9 @@ defmodule Yocingo do
     if is_path photo do
       body = {:multipart,
               [{"chat_id", to_string(chat_id)},
+               {"caption", to_string(caption)},
+               {"reply_to_message_id", to_string(reply_to_message_id)},
+               {"reply_markup", reply_markup |> JSX.encode!},
                {:file, photo,
                 {"form-data",
                  [{"name", "photo"},
@@ -56,9 +64,9 @@ defmodule Yocingo do
     else
       body = {:form, [chat_id: chat_id,
                       photo: photo,
-                      caption: caption,
-                      reply_to_message_id: reply_to_message_id,
-                      reply_markup: reply_markup]}
+                      caption: to_string(caption),
+                      reply_to_message_id: to_string(reply_to_message_id),
+                      reply_markup: reply_markup |> JSX.encode!]}
     end
     get_response("sendPhoto", body)
   end
