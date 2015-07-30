@@ -38,50 +38,35 @@ defmodule Yocingo do
   end
 
   def send_message(chat_id, text, disable_web_page_preview \\ false,
-      reply_to_mensaje_id \\ nil, reply_markup \\ nil) do
+                   reply_to_mensaje_id \\ nil, reply_markup \\ nil) do
     body = {:form,[chat_id: chat_id, text: text]}
     get_response("sendMessage", body)
   end
 
-  def send_photo(chat_id, photo_path) do
-    looks_like = (length String.split(photo_path, ".")) > 1
-    if looks_like do
-      send_photo_path(chat_id, photo_path)
+  def send_photo(chat_id, photo, caption \\ :nil,
+                 reply_to_message_id \\ :nil, reply_markup \\ :nil) do
+    if is_path photo do
+      body = {:multipart,
+              [{"chat_id", to_string(chat_id)},
+               {:file, photo,
+                {"form-data",
+                 [{"name", "photo"},
+                  {"filename", Path.basename photo}]},
+                []}]}
     else
-      send_photo_id(chat_id, photo_path)
+      body = {:form, [chat_id: chat_id,
+                      photo: photo,
+                      caption: caption,
+                      reply_to_message_id: reply_to_message_id,
+                      reply_markup: reply_markup]}
     end
+    get_response("sendPhoto", body)
   end
 
   # AUXILIAR FUNCTIONS
 
-  def send_photo_path(chat_id, photo_path) do
-    fname = String.split(photo_path, "/") |> List.last
-    multipartbody = {:multipart,
-                     [{"chat_id", to_string(chat_id)},
-                      {:file, photo_path,
-                       {"form-data",
-                        [{"name", "photo"},
-                         {"filename", fname}]},
-                       []}]}
-
-    url = build_url "sendPhoto"
-    body = case :hackney.post(url, [], multipartbody) do
-             {:ok, status_code, headers, client} when status_code in [204, 304] -> "{}"
-             {:ok, status_code, headers} -> "{}"
-             {:ok, status_code, headers, client} ->
-               case :hackney.body(client) do
-                 {:ok, body} -> body
-                 {:error, reason} -> "{}"
-               end
-             {:ok, id} -> "{}"
-             {:error, reason} -> "{}"
-           end
-    body |> JSX.decode!
-  end
-
-  def send_photo_id(chat_id, photo_id) do
-    body = {:form, [chat_id: chat_id, photo: photo_id]}
-    get_response("sendPhoto", body)
+  def is_path(path) do
+    File.exists? path
   end
 
 end
