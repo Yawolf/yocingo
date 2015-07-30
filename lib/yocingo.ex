@@ -7,7 +7,7 @@ defmodule Yocingo do
     {ret, body} = File.read "token"
 
     case ret do
-      :ok -> String.strip body, ?\n
+      :ok -> String.strip((String.strip body, ?\n), ?\r) # For Linux and Windows :D
       :error -> raise File, message: "File Token not found"
     end
     
@@ -19,17 +19,10 @@ defmodule Yocingo do
   end
 
   # Obtains and parses a petition
-  def get_response(method,request \\ :nil) do
-    case request do
-      :nil ->
-        {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-        HTTPoison.get build_url method
-        body |> JSX.decode!
-      _ ->
-        {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-        HTTPoison.post((build_url method), request)
-        body |> JSX.decode!
-    end 
+  def get_response(method,request \\ []) do
+    {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
+      HTTPoison.post((build_url method), request)
+    body |> JSX.decode!
   end
 
   # TELEGRAM API BOT FUCNTIONS
@@ -51,11 +44,23 @@ defmodule Yocingo do
 
   def send_photo(chat_id, photo, caption \\ :nil,
                  reply_to_message_id \\ :nil, reply_markup \\ :nil) do
-    body = {:form, [chat_id: chat_id,
-                    photo: photo,
-                    caption: caption,
-                    reply_to_message_id: reply_to_message_id,
-                    reply_markup: reply_markup]}
+    case photo do
+      is_path -> 
+        _ -> body = {:form, [chat_id: chat_id,
+                               photo: photo,
+                               caption: caption,
+                               reply_to_message_id: reply_to_message_id,
+                               reply_markup: reply_markup]}
+    end
+    body = {:multipart, [
+               {:form, [chat_id: chat_id,
+                        photo: photo,
+                        caption: caption,
+                        reply_to_message_id: reply_to_message_id,
+                        reply_markup: reply_markup]},
+               {:file, photo, {"form-data", [{"name", "file"}]},
+                [{"Content-Type", "image/jpeg"}]},
+               ]}
     get_response("sendPhoto", body)
   end
 
