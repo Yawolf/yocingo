@@ -3,7 +3,7 @@ defmodule Yocingo do
   @api_url "https://api.telegram.org/bot"
 
   # This function reads the token from the file called token
-  def get_token do
+  defp get_token do
     {ret, body} = File.read "token"
 
     case ret do
@@ -13,12 +13,12 @@ defmodule Yocingo do
   end
 
   # Creates the proper API method URL
-  def build_url(method) do
+  defp build_url(method) do
     @api_url <> get_token <> "/" <>method
   end
 
   # Obtains and parses a petition
-  def get_response(method,request \\ []) do
+  defp get_response(method,request \\ []) do
     {:ok, %HTTPoison.Response{status_code: _, body: body}} =
       HTTPoison.post((build_url method), request)
     body |> JSX.decode!
@@ -101,11 +101,11 @@ defmodule Yocingo do
 
   # AUXILIAR FUNCTIONS
 
-  def is_path(path) do
+  defp is_path(path) do
     File.exists? path
   end
 
-  def build_multipart_file(file, others, markup \\ nil) do
+  defp build_multipart_file(file, others, markup \\ nil) do
     file_t = {:file, elem(file, 1),
               {"form-data",
                [{"name", to_string(elem(file, 0))},
@@ -118,7 +118,7 @@ defmodule Yocingo do
     {:multipart, List.insert_at(params, -1, file_t)}
   end
 
-  def build_post_file(file, others, markup \\ nil) do
+  defp build_post_file(file, others, markup \\ nil) do
     others = for {key, val} <- others, do: {key, to_string(val)}
     params = Enum.into([file], others)
     if !is_nil(markup) do
@@ -127,7 +127,7 @@ defmodule Yocingo do
     {:form, params}
   end
 
-  def build_file(file, others, markup \\ nil) do
+  defp build_file(file, others, markup \\ nil) do
     if is_path elem(file, 1) do
       build_multipart_file(file, others, markup)
     else
