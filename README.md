@@ -1,4 +1,4 @@
-![alt text](http://postimg.org/image/3mfwj3wn7/)
+![](http://s13.postimg.org/7vkml9zwn/yocingo_Icon.png)
 
 Yocingo Telegram API Bot
 ========================
