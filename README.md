@@ -3,7 +3,7 @@
 Yocingo Telegram API Bot
 ========================
 
-A Telegram API Bot written in **Elixir**! Awesome! :D ([Documentation](http://hexdocs.pm/yocingo/0.0.1/))
+A Telegram API Bot written in **Elixir**! Awesome! :D ([Hex](https://hex.pm/packages/yocingo)) ([Documentation](http://hexdocs.pm/yocingo/0.0.1/))
 
 The libary is completed!! Yay! And it is accesible the Hex repository! ^_^
 
