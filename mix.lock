@@ -1,6 +1,10 @@
-%{"exjsx": {:hex, :exjsx, "3.2.0"},
+%{"earmark": {:hex, :earmark, "0.1.17"},
+  "ex_doc": {:hex, :ex_doc, "0.7.3"},
+  "exjsx": {:hex, :exjsx, "3.2.0"},
   "hackney": {:hex, :hackney, "1.3.0"},
+  "hoedown": {:git, "git://github.com/hoedown/hoedown.git", "8ff3d82f2dde2cead36402a59c62d3e266c2f6ec", []},
   "httpoison": {:hex, :httpoison, "0.7.1"},
   "idna": {:hex, :idna, "1.0.2"},
   "jsx": {:hex, :jsx, "2.6.2"},
+  "markdown": {:git, "git://github.com/devinus/markdown.git", "9b3beaf69a9b9c6450526c41d591a94d2eedf1e8", []},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"}}

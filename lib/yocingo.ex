@@ -2,7 +2,7 @@ defmodule Yocingo do
 
   @doc """
   
-  This is a full worthy Telegram Bot API. With this module you can
+  This is a full Telegram Bot API. With this module you can
   create your own Telegram Bot.
 
   Yawolf
@@ -41,14 +41,40 @@ defmodule Yocingo do
   # TELEGRAM API BOT FUCNTIONS
 
   @doc """
-  getMe:
   A simple method for testing your bot's auth token. 
   Requires no parameters. 
   Returns basic information about the bot in form of a HashMap.
+
+  ## Arguments
+    - offset: Integer, Optional, Identifier of the first update to be returned. 
+    Must be greater by one than the highest among the identifiers of previously 
+    received updates. By default, updates starting with the earliest unconfirmed
+    update are returned. An update is considered confirmed as soon as getUpdates
+    is called with an offset higher than its update_id.
+    - limits: Integer, Optional, Limits the number of updates to be retrieved. 
+    Values between 1—100 are accepted. Defaults to 100
+    - timeout: Integer, Optional, Timeout in seconds for long polling. 
+    Defaults to 0, i.e. usual short polling
   """
   def get_me do
     "getMe" |> get_response
   end
+
+  @doc """
+  Use this method to receive incoming updates using long polling.
+  Returns the updates in form of a HashMap
+
+  ## Arguments  
+    - offset: Integer, Optional, Identifier of the first update to be returned. 
+    Must be greater by one than the highest among the identifiers of previously 
+    received updates. By default, updates starting with the earliest unconfirmed
+    update are returned. An update is considered confirmed as soon as getUpdates
+    is called with an offset higher than its update_id.
+    - limits: Integer, Optional, Limits the number of updates to be retrieved. 
+    Values between 1—100 are accepted. Defaults to 100
+    - timeout: Integer, Optional, Timeout in seconds for long polling. 
+    Defaults to 0, i.e. usual short polling
+  """
 
   def get_updates(offset \\ 0, limits \\ 100, timeout \\ 20) do
     body = {:form, [offset: offset, limits: limits, timeout: timeout]}
@@ -56,7 +82,6 @@ defmodule Yocingo do
   end
 
   @doc """
-  send_message:
   Use this method to send text messages.
   Retruns information in form of a HashMap.
 
@@ -105,7 +130,6 @@ defmodule Yocingo do
   end
 
   @doc """
-  send_photo:
   Use this method to send photos.
   Returns info in form of a HashMap
 
@@ -131,7 +155,6 @@ defmodule Yocingo do
   end
 
   @doc """
-  send_audio:
   Use this method to send audio files.
   Returns info in form of a HashMap
 
@@ -156,7 +179,6 @@ defmodule Yocingo do
   end
 
   @doc """
-  send_document:
   Use this method to send documents.
   Returns info in form of a HashMap
 
@@ -180,7 +202,6 @@ defmodule Yocingo do
   end
 
   @doc """
-  send_sticker:
   Use this method to send documents.
   Returns info in form of a HashMap
 
@@ -204,7 +225,6 @@ defmodule Yocingo do
   end
 
   @doc """
-  send_video:
   Use this method to send videos.
   Returns info in form of a HashMap
 
@@ -228,7 +248,6 @@ defmodule Yocingo do
   end
 
   @doc """
-  send_chant_action:
   Use this method when you need to tell the user that something is happening on the 
   bot's side. The status is set for 5 seconds or less (when a message arrives from
   your bot, Telegram clients clear its typing status).
@@ -249,7 +268,6 @@ defmodule Yocingo do
   end
 
   @doc """
-  get_user_progiles_photos:
   Use this method to get a list of profile pictures for a user.
   Returns info in form of a HashMap
 
@@ -269,7 +287,7 @@ defmodule Yocingo do
   end
 
   @doc """
-  send_location: Use this method to send point on the map.
+  Use this method to send point on the map.
   Returns info in form of a HashMap.
 
   ## Arguments
