@@ -29,5 +29,6 @@ defmodule Yocingo.Mixfile do
   defp deps do
     [{:httpoison, "~> 0.7"},
     {:exjsx, "~> 3.2.0"}]
-  end
+ end
 end
+

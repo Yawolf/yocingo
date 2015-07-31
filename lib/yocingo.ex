@@ -71,6 +71,29 @@ defmodule Yocingo do
     get_response("sendPhoto", body)
   end
 
+  def send_audio(chat_id, audio, duration \\ 0, reply_to_message_id \\ :nil,
+                 reply_markup \\ :nil) do
+    if is_path audio do
+      body = {:multipart,
+              [{"chat_id", to_string(chat_id)},
+               {"duration", to_string(duration)},
+               {"reply_to_message_id", to_string(reply_to_message_id)},
+               {"reply_markup", reply_markup |> JSX.encode!},
+               {:file, audio,
+                {"form-data",
+                 [{"name", "audio"},
+                  {"filename", Path.basename audio}]},
+                []}]}
+    else
+      body = {:form, [chat_id: chat_id,
+                      audio: audio,
+                      duration: to_string(duration),
+                      reply_to_message_id: to_string(reply_to_message_id),
+                      reply_markup: reply_markup |> JSX.encode!]}
+    end
+    get_response("sendAudio", body)
+  end
+  
   # AUXILIAR FUNCTIONS
 
   def is_path(path) do
