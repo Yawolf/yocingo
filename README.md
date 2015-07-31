@@ -243,6 +243,7 @@ your bot, Telegram clients clear its typing status).
 Returns info in form of a HashMap.
 
 **Arguments**
+
 Name | Type | Required | Description
 -----|------|----------|-------------
 chat_id | Integer | Yes | Unique identifier for the message recipient, user or group.
@@ -279,6 +280,7 @@ Use this method to send point on the map.
 Returns info in form of a HashMap.
 
 **Arguments**
+
 Name | Type | Required | Description
 -----|------|----------|-------------
 chat_id | Integer | Yes | Unique identifier for the message recipient, user or group.
