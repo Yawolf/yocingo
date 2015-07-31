@@ -18,7 +18,7 @@ Use Mix to install this module, add:
 
 ```elixir
 defp deps do
-    {:yocingo, ">= 0.0.1"}
+    [{:yocingo, ">= 0.0.1"}]
 end
 ```
 In your mix.exs deps function and then type:
