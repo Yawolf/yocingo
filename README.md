@@ -5,7 +5,7 @@ Yocingo Telegram API Bot
 
 A Telegram API Bot written in **Elixir**! Awesome! :D ([Documentation](http://hexdocs.pm/yocingo/0.0.1/))
 
-The libary is completed!! Yay! And it is accesible the Hex repository! ^_^
+The libary is completed!! Yay! And it is accesible in the Hex repository! ^_^
 
 ## Disclaimer
 This is my first Elixir program, so please, don't be hard with me, I'm just a poor
@@ -31,7 +31,7 @@ And done! You can use Yocingo in your project :D
 
 ## How it Works?
 Well this is a complete implementation of the Telegram Bot API in Elixir, and it
-is really easy to use the fuctions.
+is really easy to use the functions.
 
 ### get_me
 A simple method for testing your bot's auth token. 
