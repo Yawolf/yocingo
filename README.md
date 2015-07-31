@@ -31,7 +31,7 @@ And done! You can use Yocingo in your project :D
 
 ## How it Works?
 Well this is a complete implementation of the Telegram Bot API it Elixir, and it
-is really easy to use the fuctions. Let's see:
+is really easy to use the fuctions. Let's see\:
 
 ### get_me
     A simple method for testing your bot's auth token. 
