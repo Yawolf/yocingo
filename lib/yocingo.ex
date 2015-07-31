@@ -3,24 +3,22 @@ defmodule Yocingo do
   @api_url "https://api.telegram.org/bot"
 
   # This function reads the token from the file called token
-  def get_token do
+  defp get_token do
     {ret, body} = File.read "token"
 
     case ret do
       :ok -> String.strip((String.strip body, ?\n), ?\r) # For Linux and Windows :D
       :error -> raise File, message: "File Token not found"
     end
-
   end
 
   # Creates the proper API method URL
-  def build_url(method) do
+  defp build_url(method) do
     @api_url <> get_token <> "/" <>method
   end
 
   # Obtains and parses a petition
-
-  def get_response(method,request \\ []) do
+  defp get_response(method,request \\ []) do
     {:ok, %HTTPoison.Response{status_code: _, body: body}} =
       HTTPoison.post((build_url method), request)
     body |> JSX.decode!
@@ -50,110 +48,31 @@ defmodule Yocingo do
 
   def send_photo(chat_id, photo, caption \\ :nil,
                  reply_to_message_id \\ :nil, reply_markup \\ :nil) do
-    if is_path photo do
-      body = {:multipart,
-              [{"chat_id", to_string(chat_id)},
-               {"caption", to_string(caption)},
-               {"reply_to_message_id", to_string(reply_to_message_id)},
-               {"reply_markup", reply_markup |> JSX.encode!},
-               {:file, photo,
-                {"form-data",
-                 [{"name", "photo"},
-                  {"filename", Path.basename photo}]},
-                []}]}
-    else
-      body = {:form, [chat_id: chat_id,
-                      photo: photo,
-                      caption: to_string(caption),
-                      reply_to_message_id: to_string(reply_to_message_id),
-                      reply_markup: reply_markup |> JSX.encode!]}
-    end
+    body = build_file({:photo, photo}, [chat_id: chat_id, caption: caption, reply_to_message_id: reply_to_message_id], reply_markup)
     get_response("sendPhoto", body)
   end
 
   def send_audio(chat_id, audio, duration \\ 0, reply_to_message_id \\ :nil,
                  reply_markup \\ :nil) do
-    if is_path audio do
-      body = {:multipart,
-              [{"chat_id", to_string(chat_id)},
-               {"duration", to_string(duration)},
-               {"reply_to_message_id", to_string(reply_to_message_id)},
-               {"reply_markup", reply_markup |> JSX.encode!},
-               {:file, audio,
-                {"form-data",
-                 [{"name", "audio"},
-                  {"filename", Path.basename audio}]},
-                []}]}
-    else
-      body = {:form, [chat_id: chat_id,
-                      audio: audio,
-                      duration: to_string(duration),
-                      reply_to_message_id: to_string(reply_to_message_id),
-                      reply_markup: reply_markup |> JSX.encode!]}
-    end
+    body = build_file({:audio, audio}, [chat_id: chat_id, duration: duration, reply_to_message_id: reply_to_message_id], reply_markup)
     get_response("sendAudio", body)
   end
 
   def send_document(chat_id, document, reply_to_message_id \\ :nil,
                     reply_markup \\ :nil) do
-    if is_path document do
-      body = {:multipart,
-              [{"chat_id", to_string(chat_id)},
-               {"reply_to_message_id", to_string(reply_to_message_id)},
-               {"reply_markup", reply_markup |> JSX.encode!},
-               {:file, document,
-                {"form-data",
-                 [{"name", "document"},
-                  {"filename", Path.basename document}]},
-                []}]}
-    else
-      body = {:form, [chat_id: chat_id,
-                      document: document,
-                      reply_to_message_id: to_string(reply_to_message_id),
-                      reply_markup: reply_markup |> JSX.encode!]}
-    end
+    body = build_file({:document, document}, [chat_id: chat_id, reply_to_message_id: reply_to_message_id], reply_markup)
     get_response("sendDocument", body)
   end
 
   def send_sticker(chat_id, sticker, reply_to_message_id \\ :nil,
                    reply_markup \\ :nil) do
-    if is_path sticker do
-      body = {:multipart,
-              [{"chat_id", to_string(chat_id)},
-               {"reply_to_message_id", to_string(reply_to_message_id)},
-               {"reply_markup", reply_markup |> JSX.encode!},
-               {:file, sticker,
-                {"form-data",
-                 [{"name", "sticker"},
-                  {"filename", Path.basename sticker}]},
-                []}]}
-    else
-      body = {:form, [chat_id: chat_id,
-                      sticker: sticker,
-                      reply_to_message_id: to_string(reply_to_message_id),
-                      reply_markup: reply_markup |> JSX.encode!]}
-    end
+    body = build_file({:sticker, sticker}, [chat_id: chat_id, reply_to_message_id: reply_to_message_id], reply_markup)
     get_response("sendSticker", body)
   end
 
   def send_video(chat_id, video, duration \\ 0, reply_to_message_id \\ :nil,
                  reply_markup \\ :nil) do
-    if is_path video do
-      body = {:multipart,
-              [{"chat_id", to_string(chat_id)},
-               {"reply_to_message_id", to_string(reply_to_message_id)},
-               {"reply_markup", reply_markup |> JSX.encode!},
-               {:file, video,
-                {"form-data",
-                 [{"name", "video"},
-                  {"filename", Path.basename video}]},
-                []}]}
-    else
-      body = {:form, [chat_id: chat_id,
-                      video: video,
-                      reply_to_message_id: to_string(reply_to_message_id),
-                      reply_markup: reply_markup |> JSX.encode!]}
-    end
+    body = build_file({:video, video}, [chat_id: chat_id, duration: duration, reply_to_message_id: reply_to_message_id], reply_markup)
     get_response("sendVideo", body)
   end
 
@@ -179,11 +98,40 @@ defmodule Yocingo do
     get_response("sendLocation", body)
   end
 
-  
+
   # AUXILIAR FUNCTIONS
 
-  def is_path(path) do
+  defp is_path(path) do
     File.exists? path
   end
 
+  defp build_multipart_file(file, others, markup \\ nil) do
+    file_t = {:file, elem(file, 1),
+              {"form-data",
+               [{"name", to_string(elem(file, 0))},
+                {"filename", Path.basename elem(file, 1)}]},
+              []}
+    params = Enum.map(others, fn(x) -> {to_string(elem(x, 0)), to_string(elem(x, 1))} end)
+    if !is_nil(markup) do
+      params = List.insert_at(params, -1, {"reply_markup", markup |> JSX.encode!})
+    end
+    {:multipart, List.insert_at(params, -1, file_t)}
+  end
+
+  defp build_post_file(file, others, markup \\ nil) do
+    others = for {key, val} <- others, do: {key, to_string(val)}
+    params = Enum.into([file], others)
+    if !is_nil(markup) do
+      params = Enum.into([reply_markup: (markup |> JSX.encode!)], params)
+    end
+    {:form, params}
+  end
+
+  defp build_file(file, others, markup \\ nil) do
+    if is_path elem(file, 1) do
+      build_multipart_file(file, others, markup)
+    else
+      build_post_file(file, others, markup)
+    end
+  end
 end
