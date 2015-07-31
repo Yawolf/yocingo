@@ -1,6 +1,6 @@
 ![](http://s13.postimg.org/7vkml9zwn/yocingo_Icon.png)
 
-Yocingo Telegram API Bot [![doc](http://hexdocs.pm/yocingo/0.0.1/)()]
+Yocingo Telegram API Bot
 ========================
 
 A Telegram API Bot written in **Elixir**! Awesome! :D ([Documentation](http://hexdocs.pm/yocingo/0.0.1/))
@@ -15,13 +15,15 @@ Every comment or suggestion is welcome!
 
 ## Install
 Use Mix to install this module, add:
+
 ```elixir
 {:yocingo, ">= 0.0.1"}
 ```
 
-In your mix.exs and then type:
+In your mix.exs deps function and then type:
 
 ```
+
 $ mix deps.get
 ```
 
@@ -31,7 +33,7 @@ And done! You can use Yocingo in your project :D
 Well this is a complete implementation of the Telegram Bot API it Elixir, and it
 is really easy to use the fuctions. Let's see:
 
-### get_me:
+### get_me
     A simple method for testing your bot's auth token. 
     Requires no parameters. 
     Returns basic information about the bot in form of a HashMap.
@@ -49,15 +51,15 @@ is really easy to use the fuctions. Let's see:
   Use this method to receive incoming updates using long polling.
   Returns the updates in form of a HashMap
 
-  ## Arguments
-    - offset: Integer, Optional, Identifier of the first update to be returned. 
+  **Arguments**
+    * offset: Integer, Optional, Identifier of the first update to be returned. 
     Must be greater by one than the highest among the identifiers of previously 
     received updates. By default, updates starting with the earliest unconfirmed
     update are returned. An update is considered confirmed as soon as getUpdates
     is called with an offset higher than its update_id.
-    - limits: Integer, Optional, Limits the number of updates to be retrieved. 
+    * limits: Integer, Optional, Limits the number of updates to be retrieved. 
     Values between 1—100 are accepted. Defaults to 100
-    - timeout: Integer, Optional, Timeout in seconds for long polling. 
+    * timeout: Integer, Optional, Timeout in seconds for long polling. 
     Defaults to 0, i.e. usual short polling
 
     Example:
@@ -78,15 +80,15 @@ is really easy to use the fuctions. Let's see:
   Use this method to send text messages.
   Retruns information in form of a HashMap.
 
-  ## Arguments
-    - chat_id: Integer, Required, Unique identifier for the message recipient, 
+  **Arguments**
+    * chat_id: Integer, Required, Unique identifier for the message recipient, 
     user or group.
-    - text: String, Required, Text of the message to be sent.
-    - disable_web_page_preview: Boolean, Optional, Disables link previews for 
+    * text: String, Required, Text of the message to be sent.
+    * disable_web_page_preview: Boolean, Optional, Disables link previews for 
     links in this message.
-    - reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
+    * reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
     original message.
-    - reply_markup: Dict of List of List, Optional, Additional interface options. 
+    * reply_markup: Dict of List of List, Optional, Additional interface options. 
     A JSON-serialized object for a custom reply keyboard, instructions to hide 
     keyboard or to force a reply from the user. (Check Telegram API for more Information).
 
@@ -106,17 +108,17 @@ is really easy to use the fuctions. Let's see:
   Use this method to send photos.
   Returns info in form of a HashMap
 
-  ## Arguments
-    - chat_id: Integer, Required, Unique identifier for the message recipient, 
+  **Arguments**
+    * chat_id: Integer, Required, Unique identifier for the message recipient, 
     user or group.
-    - photo: [File | String], Required, Photo to send. You can either pass a 
+    * photo: [File | String], Required, Photo to send. You can either pass a 
     file_id as String to resend a photo that is already on the Telegram servers, 
     or upload a new photo using multipart/form-data.
-    - caption: String, Optional, Photo caption (may also be used when resending
+    * caption: String, Optional, Photo caption (may also be used when resending
     photos by file_id).
-    - reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
+    * reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
     original message.
-    - reply_markup: Dict of List of List, Optional, Additional interface options. 
+    * reply_markup: Dict of List of List, Optional, Additional interface options. 
     A JSON-serialized object for a custom reply keyboard, instructions to hide 
     keyboard or to force a reply from the user. (Check Telegram API for more Information).
 
@@ -139,16 +141,16 @@ is really easy to use the fuctions. Let's see:
   Use this method to send audio files.
   Returns info in form of a HashMap
 
-  ## Arguments
-    - chat_id: Integer, Required, Unique identifier for the message recipient, 
+  **Arguments**
+    * chat_id: Integer, Required, Unique identifier for the message recipient, 
     user or group.
-    - audio: [File | String], Required, Audio file to send. You can either pass a 
+    * audio: [File | String], Required, Audio file to send. You can either pass a 
     file_id as String to resend a audio file that is already on the Telegram servers, 
     or upload a new photo using multipart/form-data.
-    - duration: Integer, Optional, Duration of sent audio in seconds
-    - reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
+    * duration: Integer, Optional, Duration of sent audio in seconds
+    * reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
     original message.
-    - reply_markup: Dict of List of List, Optional, Additional interface options. 
+    * reply_markup: Dict of List of List, Optional, Additional interface options. 
     A JSON-serialized object for a custom reply keyboard, instructions to hide 
     keyboard or to force a reply from the user. (Check Telegram API for more Information).
 
@@ -170,15 +172,15 @@ is really easy to use the fuctions. Let's see:
   Use this method to send documents.
   Returns info in form of a HashMap
 
-  ## Arguments
-    - chat_id: Integer, Required, Unique identifier for the message recipient, 
+  **Arguments**
+    * chat_id: Integer, Required, Unique identifier for the message recipient, 
     user or group.
-    - sticker: [File | String], Required, Sticker to send. You can either pass a 
+    * sticker: [File | String], Required, Sticker to send. You can either pass a 
     file_id as String to resend a sticker that is already on the Telegram servers, 
     or upload a new photo using multipart/form-data.
-    - reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
+    * reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
     original message.
-    - reply_markup: Dict of List of List, Optional, Additional interface options. 
+    * reply_markup: Dict of List of List, Optional, Additional interface options. 
     A JSON-serialized object for a custom reply keyboard, instructions to hide 
     keyboard or to force a reply from the user. (Check Telegram API for more Information).
 
@@ -199,15 +201,15 @@ is really easy to use the fuctions. Let's see:
   Use this method to send documents.
   Returns info in form of a HashMap
 
-  ## Arguments
-    - chat_id: Integer, Required, Unique identifier for the message recipient, 
+  **Arguments**
+    * chat_id: Integer, Required, Unique identifier for the message recipient, 
     user or group.
-    - sticker: [File | String], Required, Sticker to send. You can either pass a 
+    * sticker: [File | String], Required, Sticker to send. You can either pass a 
     file_id as String to resend a sticker that is already on the Telegram servers, 
     or upload a new photo using multipart/form-data.
-    - reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
+    * reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
     original message.
-    - reply_markup: Dict of List of List, Optional, Additional interface options. 
+    * reply_markup: Dict of List of List, Optional, Additional interface options. 
     A JSON-serialized object for a custom reply keyboard, instructions to hide 
     keyboard or to force a reply from the user. (Check Telegram API for more Information).
 
@@ -230,20 +232,19 @@ is really easy to use the fuctions. Let's see:
   Use this method to send videos.
   Returns info in form of a HashMap
 
-  ## Arguments
-    - chat_id: Integer, Required, Unique identifier for the message recipient, 
+  **Arguments**
+    * chat_id: Integer, Required, Unique identifier for the message recipient, 
     user or group.
-    - video: [File | String], Required, Video to send. You can either pass a 
+    * video: [File | String], Required, Video to send. You can either pass a 
     file_id as String to resend a video that is already on the Telegram servers, 
     or upload a new photo using multipart/form-data.
-    - reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
+    * reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
     original message.
-    - reply_markup: Dict of List of List, Optional, Additional interface options. 
+    * reply_markup: Dict of List of List, Optional, Additional interface options. 
     A JSON-serialized object for a custom reply keyboard, instructions to hide 
     keyboard or to force a reply from the user. (Check Telegram API for more Information).  
-  """
   
-  Exmample:
+  Example:
 
   ```elixir
   iex> Yocingo.send_sticker 8026522, "sample.mp4"
@@ -262,10 +263,10 @@ is really easy to use the fuctions. Let's see:
   your bot, Telegram clients clear its typing status).
   Returns info in form of a HashMap.
 
-  ## Arguments
-    - chat_id: Integer, Required, Unique identifier for the message recipient, 
+  **Arguments**
+    * chat_id: Integer, Required, Unique identifier for the message recipient, 
     user or group.
-    - action: String, Required, Type of action to broadcast. Choose one, depending
+    * action: String, Required, Type of action to broadcast. Choose one, depending
     on what the user is about to receive: typing for text messages, upload_photo 
     for photos, record_video or upload_video for videos, record_audio or upload_audio
     for audio files, upload_document for general files, find_location for location data.
@@ -281,11 +282,11 @@ is really easy to use the fuctions. Let's see:
   Use this method to get a list of profile pictures for a user.
   Returns info in form of a HashMap
 
-  ## Arguments
-    - user_id: Integer, Required, Unique identifier of the target user.
-    - offset: Integer, Optional, Sequential number of the first photo to be returned.
+  **Arguments**
+    * user_id: Integer, Required, Unique identifier of the target user.
+    * offset: Integer, Optional, Sequential number of the first photo to be returned.
     By default the value is 0 (means all).
-    - limit: Integer, Optional, Limits the number of photos to be retrieved. 
+    * limit: Integer, Optional, Limits the number of photos to be retrieved. 
     Values between 1—100 are accepted. Defaults to 100.
 
     Example:
@@ -299,14 +300,14 @@ is really easy to use the fuctions. Let's see:
   Use this method to send point on the map.
   Returns info in form of a HashMap.
 
-  ## Arguments
-    - chat_id: Integer, Required, Unique identifier for the message recipient, 
+  **Arguments**
+    * chat_id: Integer, Required, Unique identifier for the message recipient, 
     user or group.
-    - latitude: Float, Required, Latitude of location.
-    - longitude: Float, Required, Longitude of location.
-    - reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
+    * latitude: Float, Required, Latitude of location.
+    * longitude: Float, Required, Longitude of location.
+    * reply_to_message_id: Integer, Optional, If the message is a reply, ID of the 
     original message.
-    - reply_markup: Dict of List of List, Optional, Additional interface options. 
+    * reply_markup: Dict of List of List, Optional, Additional interface options. 
     A JSON-serialized object for a custom reply keyboard, instructions to hide 
     keyboard or to force a reply from the user. (Check Telegram API for more Information).
 
