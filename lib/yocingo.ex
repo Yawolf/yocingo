@@ -93,6 +93,92 @@ defmodule Yocingo do
     end
     get_response("sendAudio", body)
   end
+
+  def send_document(chat_id, document, reply_to_message_id \\ :nil,
+                    reply_markup \\ :nil) do
+    if is_path document do
+      body = {:multipart,
+              [{"chat_id", to_string(chat_id)},
+               {"reply_to_message_id", to_string(reply_to_message_id)},
+               {"reply_markup", reply_markup |> JSX.encode!},
+               {:file, document,
+                {"form-data",
+                 [{"name", "document"},
+                  {"filename", Path.basename document}]},
+                []}]}
+    else
+      body = {:form, [chat_id: chat_id,
+                      document: document,
+                      reply_to_message_id: to_string(reply_to_message_id),
+                      reply_markup: reply_markup |> JSX.encode!]}
+    end
+    get_response("sendDocument", body)
+  end
+
+  def send_sticker(chat_id, sticker, reply_to_message_id \\ :nil,
+                   reply_markup \\ :nil) do
+    if is_path sticker do
+      body = {:multipart,
+              [{"chat_id", to_string(chat_id)},
+               {"reply_to_message_id", to_string(reply_to_message_id)},
+               {"reply_markup", reply_markup |> JSX.encode!},
+               {:file, sticker,
+                {"form-data",
+                 [{"name", "sticker"},
+                  {"filename", Path.basename sticker}]},
+                []}]}
+    else
+      body = {:form, [chat_id: chat_id,
+                      sticker: sticker,
+                      reply_to_message_id: to_string(reply_to_message_id),
+                      reply_markup: reply_markup |> JSX.encode!]}
+    end
+    get_response("sendSticker", body)
+  end
+
+  def send_video(chat_id, video, duration \\ 0, reply_to_message_id \\ :nil,
+                 reply_markup \\ :nil) do
+    if is_path video do
+      body = {:multipart,
+              [{"chat_id", to_string(chat_id)},
+               {"reply_to_message_id", to_string(reply_to_message_id)},
+               {"reply_markup", reply_markup |> JSX.encode!},
+               {:file, video,
+                {"form-data",
+                 [{"name", "video"},
+                  {"filename", Path.basename video}]},
+                []}]}
+    else
+      body = {:form, [chat_id: chat_id,
+                      video: video,
+                      reply_to_message_id: to_string(reply_to_message_id),
+                      reply_markup: reply_markup |> JSX.encode!]}
+    end
+    get_response("sendVideo", body)
+  end
+
+  def send_chat_action(chat_id, action) do
+    body = {:form, [chat_id: chat_id, action: action]}
+    get_response("sendChatAction", body)
+  end
+
+  def get_user_profiles_photos(user_id, offset \\ 0, limit \\ 100) do
+    body = {:form, [user_id: user_id,
+                    offset: offset,
+                    limit: limit]}
+    get_response("getUserProfilePhotos", body)
+  end
+
+  def send_location(chat_id, latitude, longitude, reply_to_message_id \\ :nil,
+                    reply_markup \\ :nil) do
+    body = {:form, [chat_id: chat_id,
+                    latitude: to_string(latitude),
+                    longitude: to_string(longitude),
+                    reply_to_message_id: to_string(reply_to_message_id),
+                    reply_markup: reply_markup |> JSX.encode!]}
+    get_response("sendLocation", body)
+  end
+
   
   # AUXILIAR FUNCTIONS
 
