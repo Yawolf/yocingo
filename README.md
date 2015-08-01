@@ -17,16 +17,22 @@ Every comment or suggestion is welcome!
 Use Mix to install this module, add:
 
 ```elixir
-{:yocingo, ">= 0.0.1"}
+defp deps do
+    {:yocingo, ">= 0.0.1"}
+end
 ```
-
 In your mix.exs deps function and then type:
 
 ```
-
 $ mix deps.get
 ```
+And finally add yocingo as an application dependency:
 
+```elixir
+defp application do
+    [applications: [:yocingo]]
+end
+```
 And done! You can use Yocingo in your project :D
 
 ## How it Works?
