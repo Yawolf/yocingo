@@ -99,7 +99,7 @@ defmodule Yocingo do
   """
 
   def send_message(chat_id, text, disable_web_page_preview \\ false,
-                   reply_to_mensaje_id \\ nil, reply_markup \\ nil) do
+                   reply_to_mensaje_id \\ nil, reply_markup \\ %{"reply_markup" => []}) do
     body = {:form,[chat_id: chat_id,
                    text: text,
                    disable_web_page_preview: disable_web_page_preview,
