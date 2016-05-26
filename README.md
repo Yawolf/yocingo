@@ -8,7 +8,7 @@ A Telegram API Bot written in **Elixir**! Awesome! :D ([Hex](https://hex.pm/pack
 
 The libary is completed!! Yay! And it is accesible in the Hex repository! ^_^
 
-## ADVERTISEMENT: I will upgrade this API as soon as I have time. Thank you :D
+## ADVERTISEMENT: I will upgrade this API as soon as I have time. This Wrapper was created before Telegram APIThank you :D
 
 ## Disclaimer
 This is my first Elixir program, so please, don't be hard with me, I'm just a poor
