@@ -34,7 +34,7 @@ defmodule Yocingo.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{:httpoison, "~> 0.7"},
+    [{:httpoison, "~> 0.8.3"},
      {:exjsx, "~> 3.2.0"},
      {:ex_doc, "~> 0.7", only: :docs},
      {:earmark, ">= 0.0.0"},

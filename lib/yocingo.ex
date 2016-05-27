@@ -33,9 +33,12 @@ defmodule Yocingo do
 
   # Obtains and parses a petition
   defp get_response(method,request \\ []) do
-    {:ok, %HTTPoison.Response{status_code: _, body: body}} =
-      HTTPoison.post((build_url method), request)
-    body |> JSX.decode!
+    case HTTPoison.post((build_url method), request) do
+      {:ok, %HTTPoison.Response{status_code: _, body: body}} ->
+        body |> JSX.decode!
+      {:error, %HTTPoison.Error{id: nil, reason: reason}} ->
+        IO.inspect reason
+    end
   end
 
   # TELEGRAM API BOT FUCNTIONS
