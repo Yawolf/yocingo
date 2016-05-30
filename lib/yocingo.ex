@@ -32,8 +32,9 @@ defmodule Yocingo do
   end
 
   # Obtains and parses a petition
-  defp get_response(method,request \\ []) do
-    case HTTPoison.post((build_url method), request) do
+  defp get_response(method, request \\ [], timeout \\ 5) do
+    case HTTPoison.post((build_url method),
+          request, [], recv_timeout: (timeout * 1000) + 1000) do
       {:ok, %HTTPoison.Response{status_code: _, body: body}} ->
         body |> JSX.decode!
       {:error, %HTTPoison.Error{id: nil, reason: reason}} ->
@@ -81,7 +82,7 @@ defmodule Yocingo do
 
   def get_updates(offset \\ 0, limits \\ 100, timeout \\ 20) do
     body = {:form, [offset: offset, limits: limits, timeout: timeout]}
-    get_response("getUpdates",body)
+    get_response("getUpdates", body, timeout)
   end
 
   @doc """
