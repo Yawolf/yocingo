@@ -5,7 +5,7 @@ defmodule Yocingo.Mixfile do
   This is a full Telegram Bot API. With this module you can
   create your own Telegram Bot.
   """
-  
+
   def project do
     [app: :yocingo,
      version: "0.0.2",
@@ -34,7 +34,7 @@ defmodule Yocingo.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{:httpoison, "~> 0.8.3"},
+    [{:httpoison, "~> 0.9.0"},
      {:exjsx, "~> 3.2.0"},
      {:ex_doc, "~> 0.7", only: :docs},
      {:earmark, ">= 0.0.0"},
@@ -48,4 +48,3 @@ defmodule Yocingo.Mixfile do
     links: %{"Github" => "https://github.com/Yawolf/yocingo"}]
   end
 end
-
