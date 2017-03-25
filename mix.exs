@@ -37,8 +37,9 @@ defmodule Yocingo.Mixfile do
     [{:httpoison, "~> 0.9.0"},
      {:exjsx, "~> 3.2.0"},
      {:ex_doc, "~> 0.7", only: :docs},
-     {:earmark, ">= 0.0.0"},
-     {:markdown, github: "devinus/markdown"}]
+     {:earmark, ">= 0.0.0"}
+    #  {:markdown, github: "devinus/markdown"} # Causes runtime compile errors on phoenix apps using elixir 1.4
+    ]
   end
 
   defp package do
