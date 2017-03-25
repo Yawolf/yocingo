@@ -9,7 +9,7 @@ defmodule Yocingo.Mixfile do
   def project do
     [app: :yocingo,
      version: "0.0.2",
-     elixir: "~> 1.0",
+     elixir: "~> 1.4",
      description: @description,
      package: package,
      build_embedded: Mix.env == :prod,
@@ -38,8 +38,8 @@ defmodule Yocingo.Mixfile do
      {:exjsx, "~> 3.2.0"},
      {:ex_doc, "~> 0.7", only: :docs},
      {:earmark, ">= 0.0.0"}
-    #  {:markdown, github: "devinus/markdown"} # Causes runtime compile errors on phoenix apps using elixir 1.4
-    ]
+    #  {:markdown, github: "devinus/markdown"}
+  ]
   end
 
   defp package do
